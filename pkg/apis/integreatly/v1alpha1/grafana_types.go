@@ -65,6 +65,7 @@ type GrafanaDeployment struct {
 	Tolerations     []v1.Toleration        `json:"tolerations,omitempty"`
 	Affinity        *v1.Affinity           `json:"affinity,omitempty"`
 	SecurityContext *v1.PodSecurityContext `json:"securityContext,omitempty"`
+	HTTPSProxy      string                 `json:"httpsProxy,omitempty"`
 }
 
 // GrafanaIngress provides a means to configure the ingress created

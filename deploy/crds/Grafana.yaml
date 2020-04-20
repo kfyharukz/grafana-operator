@@ -115,6 +115,9 @@ spec:
                 affinity:
                   type: object
                   description: Additonal labels for running grafana pods with affinity properties.
+                httpsProxy:
+                  type: string
+                  description: HTTPS_PROXY for Grafana container
             serviceAccount:
               type: object
               properties:

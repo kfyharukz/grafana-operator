@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+
 	"github.com/integr8ly/grafana-operator/v3/pkg/apis/integreatly/v1alpha1"
 	"github.com/integr8ly/grafana-operator/v3/pkg/controller/config"
 	v1 "k8s.io/api/apps/v1"
@@ -295,6 +296,10 @@ func getContainers(cr *v1alpha1.Grafana, configHash, dsHash string) []v13.Contai
 	cfg := config.GetControllerConfig()
 	image := cfg.GetConfigString(config.ConfigGrafanaImage, GrafanaImage)
 	tag := cfg.GetConfigString(config.ConfigGrafanaImageTag, GrafanaVersion)
+	var httpsProxy string
+	if cr.Spec.Deployment != nil {
+		httpsProxy = cr.Spec.Deployment.HTTPSProxy
+	}
 
 	containers = append(containers, v13.Container{
 		Name:       "grafana",
@@ -316,6 +321,10 @@ func getContainers(cr *v1alpha1.Grafana, configHash, dsHash string) []v13.Contai
 			{
 				Name:  LastDatasourcesConfigEnvVar,
 				Value: dsHash,
+			},
+			{
+				Name:  "HTTPS_PROXY",
+				Value: httpsProxy,
 			},
 			{
 				Name: GrafanaAdminUserEnvVar,
